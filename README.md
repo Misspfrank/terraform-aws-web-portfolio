@@ -8,13 +8,13 @@ The infrastructure deploys two EC2 web servers, fronted by an Application Load B
 
 ## Technologies Used
 
-Terraform
-AWS EC2
-AWS VPC
-Application Load Balancer (ALB)
-Amazon S3
-Bash (User Data)
-Git & GitHub
+- Terraform,
+- AWS EC2,
+- AWS VPC,
+- Application Load Balancer (ALB),
+- Amazon S3,
+- Bash (User Data),
+- Git & GitHub.
 
 # Architecture Diagram
 ![AWS Terraform web infrastructure architecture showing VPC with public subnets across two availability zones, internet gateway, security group, two EC2 instances running Apache, and application load balancer distributing traffic with health checks](/images/aws-architecture-annotated.png)
@@ -23,17 +23,16 @@ Git & GitHub
 
 1. VPC
 
-Custom VPC with CIDR 10.0.0.0/16
+- Custom VPC with CIDR 10.0.0.0/16
 
 2. Public Subnets
 
-Two public subnets across different Availability Zones
-
-Ensures high availability
+- Two public subnets across different Availability Zones
+- Ensures high availability
 
 3. Internet Gateway
 
-Enables internet access for EC2 instances and ALB
+- Enables internet access for EC2 instances and ALB
 
 4. Security Group
 
@@ -53,27 +52,54 @@ Allows:
 - Health checks ensure traffic is only sent to healthy servers
 
 ## Project Structure
-.
+terraform-aws-web-portfolio/
+│
+├── modules/
+│   ├── vpc/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   │
+│   ├── ec2/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   │
+│   ├── alb/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   │
+│   └── s3/
+│       ├── main.tf
+│       └── variables.tf
+│
+├── userdata/
+│   ├── userdata1.sh
+│   └── userdata2.sh
+│
+├── images/
+│   └── aws-architecture-annotated.png
+│
 ├── main.tf
 ├── provider.tf
 ├── variables.tf
 ├── outputs.tf
-├── modules/
-├── userdata/
-├── images/
+├── .gitignore
 └── README.md
+
 
 ### User Data Automation (HTML Deployment)
 
 - Each EC2 instance uses a user data script to:
 - Install Apache
-- Retrieve the EC2 instance ID
+- Retrieves Deployment message
 - Deploy a dynamic HTML portfolio page
 
 ### Example Output in Browser:
 
 - Server name (Server 1 / Server 2)
-- Instance ID
+- Deployment status
 - Personalized welcome message
 
 This makes it easy to verify load balancer traffic distribution.
@@ -86,7 +112,7 @@ This makes it easy to verify load balancer traffic distribution.
 - Git installed
 
 ### Step 1: Clone the Repository
-git clone https://github.com/<your-username>/terraform-aws-web-portfolio.git
+git clone https://github.com/Misspfrank/terraform-aws-web-portfolio.git.git
 cd terraform-aws-web-portfolio
 
 ### Step 2: Initialize Terraform
@@ -117,7 +143,9 @@ After deployment, Terraform outputs the ALB DNS name:
 load_balancer_dns = <ALB-DNS>
 
 Paste it into your browser.
-![Dynamic HTML output page displaying the application load balancer DNS name and a personalized welcome message for users. The page features a clean layout with server information, including the server name and instance ID, set against a simple background. The overall tone is welcoming and informative, designed to enhance user experience.](/images/HTML-deployment-alb-dns-output.mp4)
+![Dynamic HTML output page displaying the application load balancer DNS name and a personalized welcome message for users. The page features a clean layout with server information, including the output message, set against a simple background. The overall tone is welcoming and informative, designed to enhance user experience.](/images/HTML-deployment-alb-dns.png)
+![Web Server 1 output](/images/web-server1-output.png)
+![Web Server 2 output](/images/web-server2-output.png)
 
 
 ## Cleanup
@@ -141,11 +169,3 @@ terraform destroy
 - HTTPS using ACM
 - Remote Terraform backend (S3 + DynamoDB)
 - CI/CD with GitHub Actions
-
-## Key Highlights
-- Infrastructure as Code using Terraform
-- Modular Terraform architecture
-- High availability using Application Load Balancer
-- Automated web server provisioning with User Data
-- Dynamic HTML portfolio deployment
-- GitHub version control best practices
