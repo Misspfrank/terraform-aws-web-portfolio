@@ -1,0 +1,13 @@
+# Terraform files
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+
+# Sensitive files
+terraform.tfvars
+
+# OS / Editor noise
+.DS_Store
+.vscode/
+.idea/
